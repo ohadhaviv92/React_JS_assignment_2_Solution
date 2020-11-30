@@ -46,6 +46,9 @@ class Ingredient extends Component {
         })
         .then(
         (result) => {
+          if(result==1){
+            alert("Ingredient added");
+          }
         console.log("fetch POST= ", result);
         console.log(result.Avg);
         },
