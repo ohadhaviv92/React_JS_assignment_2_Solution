@@ -10,7 +10,7 @@ class Ingredient extends Component {
        name:'',
        image:'',
        calories:'',
-       apiUrl:'http://localhost:59472/api/kitchen/',
+       apiUrl:'http://localhost:59472/api/ingredient/',
      }
         
     }
@@ -65,7 +65,7 @@ class Ingredient extends Component {
                 <Form onSubmit={this.handleSubmit}>
   <Form.Group controlId="formBasicEmail">
     <Form.Label>name</Form.Label>
-    <Form.Control type="text" onChange={this.name} name="name" value={this.state.name} onChange={this.handleChange} placeholder="Enter ingredient name" />
+    <Form.Control type="text"  name="name" value={this.state.name} onChange={this.handleChange} placeholder="Enter ingredient name" />
   </Form.Group>
 
   <Form.Group controlId="formBasicPassword">

@@ -11,12 +11,12 @@ namespace WebApplication1.Controllers
 {
 
     
-    public class KitchenController : ApiController
+    public class IngredientController : ApiController
     {
 
-        public IHttpActionResult Get()
+        public List<Ingredient> Get()
         {
-            return Json("value1");
+            return Ingredient.getIngredient();
         }
 
 

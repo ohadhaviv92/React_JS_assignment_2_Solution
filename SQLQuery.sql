@@ -1,7 +1,7 @@
 
 
 create table ingredients (
-id int primary key,
+id int IDENTITY(1,1) primary key,
 name varchar(200),
 image varchar(max),
 calories int 
@@ -9,7 +9,7 @@ calories int
 
 
 create table recipes (
-id int primary key,
+id int IDENTITY(1,1) primary key,
 name varchar(200),
 image varchar(max),
 cookingMethod varchar(max),
