@@ -1,24 +1,28 @@
 import React, { Component } from 'react';
-import {Form ,Button} from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
+
 
 class Ingredient extends Component {
 
     constructor(props) {
         super(props);
         
-     this.state={
-       name:'',
-       image:'',
-       calories:'',
-       apiUrl:'http://localhost:59472/api/ingredient/',
-     }
-        
     }
     
 
 
     render() {
-        return( <div>j</div>);
+    return( <div>                 
+      <Card style={{ width: '18rem' }}>
+    <Card.Img variant="top" src={this.props.data.Image}  style={{width:"18rem",height:"200px"}}/>
+    <Card.Body>
+      <Card.Title>Name: {this.props.data.Name}</Card.Title>
+      <Card.Text>
+      Calories: {this.props.data.Calories} 
+      </Card.Text>
+     
+    </Card.Body>
+  </Card> </div>);
     }
 }
 

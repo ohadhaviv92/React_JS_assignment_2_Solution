@@ -1,7 +1,14 @@
 
 import React, { Component } from 'react';
-import {Form ,Button} from 'react-bootstrap';
-import { Multiselect } from 'multiselect-react-dropdown';
+
+import { Button,Card,Modal } from 'react-bootstrap';
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+
+
+
+
+import Ingredient from './Ingredient';
 
 
 
@@ -11,166 +18,63 @@ class DishRecipe extends Component {
     constructor(props) {
         super(props);
         
-     this.state={
-       name:'',
-       image:'',
-       ingredients:null,
-       time:'',
-       cookingMethod:'',
-       options:[],
-       selectedValue:[],
-       apiUrl:'http://localhost:59472/api/ingredient/',
-       apiUrl2:'http://localhost:59472/api/dishRecipe/',
-     }
+		this.state = {
+			
+			lgShow: false,
+		};
         
     }
 
 
      
-       
+    calculateCalories = () =>{
+       let  sum=0;
+        this.props.data.Ingredients.forEach(element => {
+            sum+= element.Calories;
+        });
 
-componentDidMount() {
-    fetch(this.state.apiUrl)
-.then(res => {
-console.log('res=', res);
-console.log('res.status', res.status);
-console.log('res.ok', res.ok);
-return res.json()
-})
-.then(
-(result) => {
-console.log("fetch btnFetchGetStudents= ", result);
-
-let a=[];
-
-result.forEach(element => {
-    a.push({id: element.Id, name: element.Name, image:element.Image, calories:parseInt(element.Calories) });
-});
-
-this.setState({options:a});
-
-},
-(error) => {
-console.log("err post=", error);
-});
+        alert("total calories: " +sum );
+    } 
 
 
-}
-
-onSelect =(e) =>{
-    console.log(e);
-    let a=this.state.selectedValue;
-    a.push(e);
-    this.setState({selectedValue:a});
-}
-
-onRemove =(e) =>{
-
-    var filtered = this.state.selectedValue.filter(function(el) { return el.id !== e.id; }); 
-
-    this.setState({selectedValue:filtered});
-}
-
-
-
-handleChange = (event) => {
-    this.setState({[event.target.name]: event.target.value});
-  }
-
-handleSubmit = (event) => {
-
-
-    console.log(this.state);
-
-let a=[]
-this.state.selectedValue[0].forEach(element => {
-        a.push(parseInt(element.id));
-    });
-
-    const data = { 
-        name: this.state.name,
-        image: this.state.image,
-        cookingMethod:this.state.cookingMethod,
-        ingredients:a,
-        time:parseInt(this.state.time) ,
-        };
-
-        console.log(data);
-
-
-        fetch(this.state.apiUrl2, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: new Headers({
-            'Content-type': 'application/json; charset=UTF-8' //very important to add the 'charset=UTF-8'!!!!
-            })
-            })
-            .then(res => {
-            console.log('res=', res);
-            return res.json()
-            })
-            .then(
-            (result) => {
-              if(result==1){
-                alert("recipe added");
-              }
-            console.log("fetch POST= ", result);
-            console.log(result.Avg);
-            },
-            (error) => {
-            console.log("err post=", error);
-            });
-          event.preventDefault();
-    
-}
-
+ 
 
     render() {
 
 
-       
+ 
+        let lgClose = () => this.setState({ lgShow: false });
 
         return (
             <div>
-                                <Form onSubmit={this.handleSubmit}>
-  <Form.Group controlId="formBasicEmail">
-    <Form.Label>name</Form.Label>
-    <Form.Control type="text" name="name"  placeholder="Enter dish name" onChange={this.handleChange} />
-  </Form.Group>
-
-  <Form.Group controlId="formBasicPassword">
-    <Form.Label>image</Form.Label>
-    <Form.Control type="text" name="image"   placeholder="enter image url" onChange={this.handleChange} />
-  </Form.Group>
-  <Form.Group controlId="exampleForm.ControlSelect1" >
-    <Form.Label>Ingredients</Form.Label>
-    <Multiselect
-options={this.state.options} // Options to display in the dropdown
-selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
-onSelect={this.onSelect} // Function will trigger on select event
-onRemove={this.onRemove} // Function will trigger on remove event
-displayValue="name" // Property name to display in the dropdown options
-/>
-    <Form.Control as="select" >
-      {this.state.ingredients}
-    </Form.Control>
+                <Card style={{ width: '18rem' }}>
+  <Card.Img variant="top" src={this.props.data.Image}  style={{width:"18rem",height:"200px"}}/>
+  <Card.Body>
+    <Card.Title> Name: {this.props.data.Name}</Card.Title>
+    <Card.Text>
+    Cooking Method:  {this.props.data.CookingMethod}
+    </Card.Text>
+    <Card.Title> Time: {this.props.data.Time} Minuts</Card.Title>
+  { this.props.data.Ingredients.length > 0 ?<div> <Button variant="primary" onClick={() => this.setState({ lgShow: true })}>Get Ingredients!</Button> <br/><br/>  <Button variant="primary" onClick={this.calculateCalories}>Get Total Calories!</Button></div> :<h5 style={{color:'red'}}>There is no Ingredient</h5>}
    
-  </Form.Group>
-  <Form.Group controlId="formBasicPassword">
-    <Form.Label>cookingMethod</Form.Label>
-    <Form.Control type="text" name="cookingMethod" placeholder="enter dish cookingMethod" onChange={this.handleChange} />
-  </Form.Group>
-  <Form.Group controlId="formBasicPassword">
-    <Form.Label>time</Form.Label>
-    <Form.Control type="number" name="time" placeholder="enter dish time" onChange={this.handleChange} />
-  </Form.Group>
-  <Button variant="primary" type="submit">
-    Create New Recipe
-  </Button>
-  <Button variant="warning">
-    Clear Form
-  </Button>
-</Form>
+  </Card.Body>
+</Card>
+<Modal
+					size="lg"
+					show={this.state.lgShow}
+					onHide={lgClose}
+					aria-labelledby="example-modal-sizes-title-lg"
+				>
+					<Modal.Header closeButton>
+						<Modal.Title id="example-modal-sizes-title-lg">
+                        Ingredients
+            </Modal.Title>
+					</Modal.Header>
+					<Modal.Body>         <Row>      {this.props.data.Ingredients.length >0 ? this.props.data.Ingredients.map(ing => <Col> <Ingredient key={ing.Id} data={ing}/> </Col>)  : null}</Row>
+</Modal.Body>
+				</Modal>
+
+
             </div>
         );
     }

@@ -4,15 +4,17 @@ import React from 'react'
 import Recipes from './Recipes';
 import RecipesDone from './RecipesDone';
 import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row';
-import DishRecipe from './DishRecipe';
-import Ingredient from './Ingredient';
 
+import DishRecipe from './DishRecipe';
+
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
 
 class MyKitchen extends React.Component {
     constructor(props){
         super(props)
         this.state={
+          recipes:null,
           apiUrl:'http://localhost:59472/api/dishRecipe/',
         }
 
@@ -34,8 +36,8 @@ componentDidMount() {
   (result) => {
   console.log("fetch btnFetchGetStudents= ", result);
   
+  this.setState({recipes:result});
 
-  
 
   
   },
@@ -50,18 +52,21 @@ componentDidMount() {
 
 
     render() {
-   
      
+      
+   
       
     return (
       
       <Container fluid>
         <Row>
         <center>
-      <h1>Recepis</h1>
+      <h1>Recepis List : </h1>
       </center>
       </Row>
-
+      <Row>
+      {this.state.recipes !== null ? this.state.recipes.map(recipe => <Col><DishRecipe key={recipe.Id} data={recipe}/></Col>)  : null}
+      </Row>
        </Container>
       
        )

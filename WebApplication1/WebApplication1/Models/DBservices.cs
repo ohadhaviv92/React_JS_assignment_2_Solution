@@ -235,18 +235,16 @@ public class DBservices
                 con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
 
 
-                selectSTR = "select * from ingredientsInRecipes as IR join recipes as R on IR.recipeId=R.id join ingredients as I on I.ID=IR.ingredientId where IR.recipeId =" + item.Id;
+                selectSTR = "select I.name , I.calories , I.id , I.image from ingredientsInRecipes as IR join recipes as R on IR.recipeId=R.id join ingredients as I on I.ID=IR.ingredientId where IR.recipeId =" + item.Id;
                 cmd2 = new SqlCommand(selectSTR, con2);
                 
                 dr2 = cmd2.ExecuteReader(CommandBehavior.CloseConnection);
 
-                dr = dr2;
-                int i = 0;
-
+                
                 List <Ingredient> list2 = new List<Ingredient>();
                 
 
-                 i = 0;
+                 
                 while (dr2.Read())
                 {
                     Ingredient ing = new Ingredient();
