@@ -1,8 +1,7 @@
 
 
 import React from 'react'
-import Recipes from './Recipes';
-import RecipesDone from './RecipesDone';
+
 import Container from 'react-bootstrap/Container'
 
 import DishRecipe from './DishRecipe';
@@ -34,7 +33,7 @@ componentDidMount() {
   })
   .then(
   (result) => {
-  console.log("fetch btnFetchGetStudents= ", result);
+  console.log("fetch = ", result);
   
   this.setState({recipes:result});
 
@@ -59,11 +58,13 @@ componentDidMount() {
     return (
       
       <Container fluid>
+         
         <Row>
-        <center>
+       
       <h1>Recepis List : </h1>
-      </center>
+      
       </Row>
+    
       <Row>
       {this.state.recipes !== null ? this.state.recipes.map(recipe => <Col><DishRecipe key={recipe.Id} data={recipe}/></Col>)  : null}
       </Row>

@@ -108,7 +108,7 @@ handleSubmit = (event) => {
             })
             .then(
             (result) => {
-              if(result==1){
+              if(result===1){
                 alert("recipe added");
               }
             console.log("fetch POST= ", result);
@@ -129,8 +129,8 @@ handleSubmit = (event) => {
 
         return (
             <div>
-                                <Form onSubmit={this.handleSubmit}>
-  <Form.Group controlId="formBasicEmail">
+                            <center>    <h2> Fill New Recipe : </h2> <Form onSubmit={this.handleSubmit} style={{width:'50%'}} >
+  <Form.Group  controlId="formBasicEmail">
     <Form.Label>name</Form.Label>
     <Form.Control type="text" name="name"  placeholder="Enter dish name" onChange={this.handleChange} />
   </Form.Group>
@@ -148,9 +148,7 @@ onSelect={this.onSelect} // Function will trigger on select event
 onRemove={this.onRemove} // Function will trigger on remove event
 displayValue="name" // Property name to display in the dropdown options
 />
-    <Form.Control as="select" >
-      {this.state.ingredients}
-    </Form.Control>
+
    
   </Form.Group>
   <Form.Group controlId="formBasicPassword">
@@ -164,10 +162,11 @@ displayValue="name" // Property name to display in the dropdown options
   <Button variant="primary" type="submit">
     Create New Recipe
   </Button>
-  <Button variant="warning">
+  <Button variant="warning" href="DishRecipe">
     Clear Form
   </Button>
 </Form>
+</center>
             </div>
         );
     }

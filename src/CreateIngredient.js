@@ -46,7 +46,7 @@ class CreateIngredient extends Component {
         })
         .then(
         (result) => {
-          if(result==1){
+          if(result===1){
             alert("Ingredient added");
           }
         console.log("fetch POST= ", result);
@@ -61,8 +61,8 @@ class CreateIngredient extends Component {
     render() {
         return (
             <div>
-                New Ingredient
-                <Form onSubmit={this.handleSubmit}>
+              <center> <h2> Fill New Ingredient : </h2>
+                   <Form onSubmit={this.handleSubmit} style={{width:'50%'}}>
   <Form.Group controlId="formBasicEmail">
     <Form.Label>name</Form.Label>
     <Form.Control type="text"  name="name" value={this.state.name} onChange={this.handleChange} placeholder="Enter ingredient name" />
@@ -70,7 +70,7 @@ class CreateIngredient extends Component {
 
   <Form.Group controlId="formBasicPassword">
     <Form.Label>image</Form.Label>
-    <Form.Control type="password" value={this.state.image} name="image" onChange={this.handleChange} placeholder="enter image url" />
+    <Form.Control type="text" value={this.state.image} name="image" onChange={this.handleChange} placeholder="enter image url" />
   </Form.Group>
   <Form.Group controlId="formBasicPassword">
     <Form.Label>calories</Form.Label>
@@ -79,10 +79,11 @@ class CreateIngredient extends Component {
   <Button variant="primary" type="submit" >
     Create New Ingredient
   </Button>
-  <Button variant="warning">
+  
+  <Button variant="warning" href="Ingredient">
     Clear Form
   </Button>
-</Form>
+</Form>  </center>
             </div>
         );
     }

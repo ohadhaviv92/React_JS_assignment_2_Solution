@@ -4,6 +4,7 @@ import { Card } from 'react-bootstrap';
 
 class Ingredient extends Component {
 
+    // eslint-disable-next-line no-useless-constructor
     constructor(props) {
         super(props);
         
