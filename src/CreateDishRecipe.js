@@ -6,7 +6,7 @@ import { Multiselect } from 'multiselect-react-dropdown';
 
 
 
-class DishRecipe extends Component {
+class CreateDishRecipe extends Component {
 
     constructor(props) {
         super(props);
@@ -82,16 +82,13 @@ handleSubmit = (event) => {
 
     console.log(this.state);
 
-let a=[]
-this.state.selectedValue[0].forEach(element => {
-        a.push(parseInt(element.id));
-    });
+
 
     const data = { 
         name: this.state.name,
         image: this.state.image,
         cookingMethod:this.state.cookingMethod,
-        ingredients:a,
+        ingredients:this.state.selectedValue[0],
         time:parseInt(this.state.time) ,
         };
 
@@ -176,4 +173,4 @@ displayValue="name" // Property name to display in the dropdown options
     }
 }
 
-export default DishRecipe;
+export default CreateDishRecipe;

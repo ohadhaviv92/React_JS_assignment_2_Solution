@@ -10,7 +10,7 @@ namespace WebApplication1.Models
         int id;
         string name;
         string image;
-        List<Ingredient> ingredients;
+        Ingredient[] ingredients;
         string cookingMethod;
         int time;
 
@@ -18,7 +18,9 @@ namespace WebApplication1.Models
         {
         }
 
-        public DishRecipe(string name, string image, List<Ingredient> ingredients, string cookingMethod, int time)
+
+
+        public DishRecipe(string name, string image, Ingredient[] ingredients, string cookingMethod, int time)
         {
             
             this.name = name;
@@ -31,7 +33,7 @@ namespace WebApplication1.Models
         public int Id { get => id; set => id = value; }
         public string Name { get => name; set => name = value; }
         public string Image { get => image; set => image = value; }
-        public List<Ingredient> Ingredients { get => ingredients; set => ingredients = value; }
+        public Ingredient[] Ingredients { get => ingredients; set => ingredients = value; }
         public string CookingMethod { get => cookingMethod; set => cookingMethod = value; }
         public int Time { get => time; set => time = value; }
 
@@ -39,7 +41,24 @@ namespace WebApplication1.Models
         public static void addDishRecipe(DishRecipe dish)
         {
             DBservices db = new DBservices();
-            return db.insert(dish);
+            try
+            {
+                db.insert(dish);
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+
+
+        public static List<DishRecipe> getAllRecipe()
+        {
+            DBservices db = new DBservices();
+            return db.getAllRecipe();
 
         }
     }

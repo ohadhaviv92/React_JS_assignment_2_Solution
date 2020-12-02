@@ -132,7 +132,7 @@ public class DBservices
     }
 
 
-    public inr insert(DishRecipe dish)
+    public void insert(DishRecipe dish)
     {
 
         SqlConnection con;
@@ -157,12 +157,12 @@ public class DBservices
             Int32 recipeId = Convert.ToInt32(cmd.ExecuteScalar()); // execute the command
 
 
-            for (int i = 0; i < dish.Ingredients.Count; i++)
+            for (int i = 0; i < dish.Ingredients.Length; i++)
             {
                 try
                 {
                     cStr = BuildInsertCommand(recipeId, dish.Ingredients[i].Id );
-                    cmd = CreateCommand(cStr, con);             // create the command
+                    cmd = CreateCommand(cStr, con);      // create the command
                     cmd.ExecuteNonQuery(); // execute the command
 
                 }
@@ -190,6 +190,101 @@ public class DBservices
                 con.Close();
             }
         }
+
+    }
+
+    public List<DishRecipe> getAllRecipe()
+    {
+        SqlConnection con = null;
+        SqlConnection con2 = null;
+
+        try
+        {
+
+            con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+            String selectSTR = "select * from recipes";
+            SqlCommand cmd = new SqlCommand(selectSTR, con);
+            SqlCommand cmd2;
+            // get a reader
+            SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection); // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+            SqlDataReader dr2 ; // CommandBehavior.CloseConnection: the connection will be closed after reading has reached the end
+            
+           
+
+            List<DishRecipe> list = new List<DishRecipe>();
+            while (dr.Read())
+            {   // Read till the end of the data into a row
+                DishRecipe d = new DishRecipe();
+                d.Id = (int)dr["id"];
+                d.Name = (string)dr["name"];
+                d.Image = (string)dr["image"];
+                d.Time = (int)dr["time"];
+                d.CookingMethod = (string)dr["CookingMethod"];
+
+
+                list.Add(d);
+            }
+            con.Close();
+            cmd.Connection.Close();
+
+            foreach (DishRecipe item in list)
+            {
+
+                con2 = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+                con = connect("DBConnectionString"); // create a connection to the database using the connection String defined in the web config file
+
+
+                selectSTR = "select * from ingredientsInRecipes as IR join recipes as R on IR.recipeId=R.id join ingredients as I on I.ID=IR.ingredientId where IR.recipeId =" + item.Id;
+                cmd2 = new SqlCommand(selectSTR, con2);
+                
+                dr2 = cmd2.ExecuteReader(CommandBehavior.CloseConnection);
+
+                dr = dr2;
+                int i = 0;
+
+                List <Ingredient> list2 = new List<Ingredient>();
+                
+
+                 i = 0;
+                while (dr2.Read())
+                {
+                    Ingredient ing = new Ingredient();
+                    ing.Id = (int)dr2["id"];
+                    ing.Name = (string)dr2["name"];
+                    ing.Image = (string)dr2["image"];
+                    ing.Calories = (int)dr2["calories"];
+                    list2.Add(ing);
+  
+                }
+
+                cmd2.Connection.Close();
+                con2.Close();
+                cmd.Connection.Close();
+                con.Close();
+                item.Ingredients = list2.ToArray();
+            }
+
+            return list;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+                con2.Close();
+
+            }
+
+        }
+
+
+
 
     }
 

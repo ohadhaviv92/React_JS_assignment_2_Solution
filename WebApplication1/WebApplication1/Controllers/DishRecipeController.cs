@@ -11,12 +11,19 @@ namespace WebApplication1.Controllers
     public class DishRecipeController : ApiController
     {
 
-        public void Post([FromBody] DishRecipe d)
+        public List<DishRecipe> Get()
         {
+            return DishRecipe.getAllRecipe();
+        }
+
+        public int Post([FromBody] DishRecipe d)
+        {
+           
 
             try
             {
                 DishRecipe.addDishRecipe(d);
+                return 1;
             }
             catch(Exception ex)
             {

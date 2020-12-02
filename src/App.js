@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import MyKitchen from './MyKitchen';
-import DishRecipe from './DishRecipe';
-import Ingredient from './Ingredient';
+import CreateDishRecipe from './CreateDishRecipe';
+import CreateIngredient from './CreateIngredient';
 import { Navbar, Nav} from 'react-bootstrap';
 
 import FastfoodIcon from '@material-ui/icons/Fastfood';
@@ -31,10 +31,10 @@ class App extends Component {
                 <MyKitchen />
                 </Route>
                 <Route exact path="/Ingredient" >
-                <Ingredient />
+                <CreateIngredient />
                 </Route>
                 <Route exact path="/DishRecipe" >
-                <DishRecipe />
+                <CreateDishRecipe />
                 </Route>
 
                 </Switch> </div>
